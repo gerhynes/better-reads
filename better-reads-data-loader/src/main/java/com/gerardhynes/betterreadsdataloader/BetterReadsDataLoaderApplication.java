@@ -68,7 +68,25 @@ public class BetterReadsDataLoaderApplication {
 	}
 
 	private void initWorks(){
-		
+		Path path = Paths.get(worksDumpLocation);
+		try (Stream<String> lines = Files.lines(path)) {
+			lines.forEach(line -> {
+				// Read and parse the line
+				String jsonString = line.substring(line.indexOf("{"));
+				try {
+				JSONObject jsonObject = new JSONObject(jsonString);
+
+				// Construct book object
+			
+				// Persist using Repository
+
+				} catch(JSONException e){
+					e.printStackTrace();
+				}
+			});
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
 	}
 
 	@PostConstruct
