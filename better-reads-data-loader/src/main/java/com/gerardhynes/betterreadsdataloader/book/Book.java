@@ -1,6 +1,7 @@
 package com.gerardhynes.betterreadsdataloader.book;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
@@ -26,6 +27,18 @@ public class Book {
   @Column("published_date")
   @CassandraType(type = Name.DATE)
   private LocalDate publishedDate;
+
+  @Column("cover_ids")
+  @CassandraType(type = Name.LIST, typeArguments = Name.TEXT)
+  private List<String> coverIds;
+
+  @Column("author_names")
+  @CassandraType(type = Name.LIST, typeArguments = Name.TEXT)
+  private List<String> authorNames;
+
+  @Column("author_id")
+  @CassandraType(type = Name.LIST, typeArguments = Name.TEXT)
+  private List<String> authorIds;
 
   public String getId() {
     return id;
@@ -57,5 +70,29 @@ public class Book {
 
   public void setPublishedDate(LocalDate publishedDate) {
     this.publishedDate = publishedDate;
+  }
+
+  public List<String> getCoverIds() {
+    return coverIds;
+  }
+
+  public void setCoverIds(List<String> coverIds) {
+    this.coverIds = coverIds;
+  }
+
+  public List<String> getAuthorNames() {
+    return authorNames;
+  }
+
+  public void setAuthorNames(List<String> authorNames) {
+    this.authorNames = authorNames;
+  }
+
+  public List<String> getAuthorIds() {
+    return authorIds;
+  }
+
+  public void setAuthorIds(List<String> authorIds) {
+    this.authorIds = authorIds;
   }
 }
