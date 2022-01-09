@@ -10,7 +10,7 @@ spring:
       keyspace-name: main
       username: <username>
       password: <secret>
-      schema-action: create
+      schema-action: create-if-not-exists
       request:
         timeout: 10s
       connection:

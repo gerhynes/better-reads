@@ -5,8 +5,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
@@ -25,13 +27,18 @@ import org.springframework.context.annotation.Bean;
 import com.gerardhynes.betterreadsdataloader.author.Author;
 import com.gerardhynes.betterreadsdataloader.author.AuthorRepository;
 import com.gerardhynes.betterreadsdataloader.book.Book;
+import com.gerardhynes.betterreadsdataloader.book.BookRepository;
 import com.gerardhynes.betterreadsdataloader.connection.DataStaxAstraProperties;
 
 @SpringBootApplication
 @EnableConfigurationProperties(DataStaxAstraProperties.class)
 public class BetterReadsDataLoaderApplication {
 
-	@Autowired AuthorRepository authorRepository;
+	@Autowired 
+	AuthorRepository authorRepository;
+
+	@Autowired 
+	BookRepository bookRepository;
 
 	@Value("${datadump.location.author}")
 	private String authorDumpLocation;
@@ -74,6 +81,8 @@ public class BetterReadsDataLoaderApplication {
 
 	private void initWorks(){
 		Path path = Paths.get(worksDumpLocation);
+		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+
 		try (Stream<String> lines = Files.lines(path)) {
 			lines.forEach(line -> {
 				// Read and parse the line
@@ -83,17 +92,20 @@ public class BetterReadsDataLoaderApplication {
 
 				// Construct book object
 				Book book = new Book();
-				book.setId(id);
+				book.setId(jsonObject.getString("key").replace("/works/", ""));
 				book.setName(jsonObject.optString("title"));
+
 				JSONObject descriptionObj = jsonObject.optJSONObject("description");
 				if (descriptionObj != null) {
 					book.setDescription(descriptionObj.optString("value"));
 				}
+
 				JSONObject publishedObj = jsonObject.optJSONObject("created");
 				if(publishedObj != null){
 					String dateStr = publishedObj.getString("value");
-					book.setPublishedDate(LocalDate.parse(dateStr));
+					book.setPublishedDate(LocalDate.parse(dateStr, dateFormat));
 				}
+
 				JSONArray coversJSONArr = jsonObject.optJSONArray("covers");
 				if (coversJSONArr != null){
 					List<String> coverIds = new ArrayList<>();
@@ -102,6 +114,7 @@ public class BetterReadsDataLoaderApplication {
 					}
 					book.setCoverIds(coverIds);
 				}
+				
 				JSONArray authorsJSONArr = jsonObject.optJSONArray("authors");
 				if (authorsJSONArr != null){
 					List<String> authorIds = new ArrayList<>();
@@ -110,14 +123,19 @@ public class BetterReadsDataLoaderApplication {
 						authorIds.add(authorId);
 					}
 					book.setAuthorIds(authorIds);
-				}
-				
-				book.setAuthorNames(authorNames);
-				
-			
-				// TODO Persist using Repository
 
-				} catch(JSONException e){
+					List<String> authorNames = authorIds.stream().map(id -> authorRepository.findById(id)).map(optionalAuthor -> {
+						if (!optionalAuthor.isPresent()) return "Unknown Author";
+						return optionalAuthor.get().getName();
+					}).collect(Collectors.toList());
+					book.setAuthorNames(authorNames);
+				}
+
+				// Persist using Repository
+				System.out.println("Saving book: " + book.getName() + "...");
+				bookRepository.save(book);
+
+				} catch(Exception e){
 					e.printStackTrace();
 				}
 			});
