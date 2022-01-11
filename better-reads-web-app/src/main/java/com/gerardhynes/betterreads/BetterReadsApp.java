@@ -1,4 +1,4 @@
-package com.gerardhynes;
+package com.gerardhynes.betterreads;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
