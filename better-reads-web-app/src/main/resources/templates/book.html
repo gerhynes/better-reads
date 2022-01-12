@@ -17,7 +17,7 @@
       <div class="card">
         <div class="row g-0">
           <div class="col-md-4">
-            <img src="..." class="img-fluid rounded-start" alt="..." />
+            <img th:src="${coverImage}" class="img-fluid rounded-start" alt="..." />
           </div>
           <div class="col-md-8">
             <div class="card-body">
@@ -28,7 +28,7 @@
               </p>
               <p class="card-text">
                 Published Date:
-                <small class="text-mutes" th:text="${book.published_date}"
+                <small class="text-mutes" th:text="${book.publishedDate}"
                   >01-01-2022</small
                 >
               </p>
