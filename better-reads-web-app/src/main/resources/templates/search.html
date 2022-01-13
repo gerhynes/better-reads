@@ -13,22 +13,26 @@
     <title>Better Reads</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/">Better Reads</a>
-    </div>
-</nav>
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light"  style="padding-bottom: 20px">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Better Reads</a>
+
+        </div>
+    </nav>
+
 <section class="content">
-    <div class="card-group" th:each="result: ${searchResults}">
-    <div class="card" style="width: 18rem;">
-        <img src="..." class="card-img-top" alt="...">
+    <div class="card-group">
+    <div class="card" style="width: 18rem;" th:each="result: ${searchResults}">
+        <img th:src="${result.cover_i}" class="card-img-top" alt="...">
         <div class="card-body">
-            <h5 class="card-title" th:text="${result.title}}">Card title</h5>
+            <h5 class="card-title" th:text="${result.title}">Card title</h5>
             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
             <a href="#" class="btn btn-primary">Go somewhere</a>
         </div>
     </div>
     </div>
 </section>
+</div>
 </body>
 </html>
