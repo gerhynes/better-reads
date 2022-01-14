@@ -13,26 +13,29 @@
     <title>Better Reads</title>
 </head>
 <body>
-<div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light"  style="padding-bottom: 20px">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">Better Reads</a>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light"  style="padding-bottom: 20px">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">Better Reads</a>
+            </div>
+        </nav>
 
-        </div>
-    </nav>
+        <div th:insert="components/book-search :: search-panel"></div>
 
-<section class="content">
-    <div class="card-group">
-    <div class="card" style="width: 18rem;" th:each="result: ${searchResults}">
-        <img th:src="${result.cover_i}" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title" th:text="${result.title}">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
+        <section class="content">
+            <div class="row">
+                <div class="col-md-6 col-lg-4" th:each="result: ${searchResults}">
+                    <div class="card">
+                        <img th:src="${result.cover_i}" class="card-img-top" alt="{result.title}">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${result.title}">Card title</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <a th:href="@{'/books/' + ${result.key}}" class="btn btn-primary">View Book</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
-    </div>
-</section>
-</div>
 </body>
 </html>

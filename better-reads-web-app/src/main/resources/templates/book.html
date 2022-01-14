@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://thymeleaf.org">
+<html lang="en" xmlns:th="http://thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -13,6 +13,9 @@
     <title>Book Details</title>
   </head>
   <body>
+
+  <div th:insert="components/book-search :: search-panel"></div>
+
     <section class="content">
       <div class="card">
         <div class="row g-0">

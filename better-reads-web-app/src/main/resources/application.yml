@@ -28,3 +28,4 @@ astra.db:
   region: europe-west1
   keyspace: main
   application.token: <db-token>
+
