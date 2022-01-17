@@ -25,6 +25,14 @@ public class UserBooks {
     @CassandraType(type = CassandraType.Name.INT)
     private int rating;
 
+    public UserBooksPrimaryKey getKey() {
+        return key;
+    }
+
+    public void setKey(UserBooksPrimaryKey key) {
+        this.key = key;
+    }
+
     public LocalDate getStartedDate() {
         return startedDate;
     }
