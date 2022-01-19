@@ -33,7 +33,7 @@ public class HomeController {
         List<BooksByUser> booksByUser = booksSlice.getContent();
         booksByUser = booksByUser.stream().distinct().map(book -> {
             String coverImageUrl = "/images/no-image.png";
-            if (book.getCoverIds() != null && book.getCoverIds().size() > 0) {
+            if (book.getCoverIds() != null & book.getCoverIds().size() > 0) {
                 coverImageUrl = COVER_IMAGE_ROOT + book.getCoverIds().get(0) + "-M.jpg";
             }
             book.setCoverUrl(coverImageUrl);
