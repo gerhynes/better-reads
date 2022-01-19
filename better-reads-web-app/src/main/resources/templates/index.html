@@ -13,12 +13,34 @@
             integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
             crossorigin="anonymous"
     />
+    <style>
+      .space-bottom {
+        margin-bottom: 30px;
+      }
+      .heading-top {
+        margin-top: 80px;
+      }
+
+    </style>
 </head>
 <body>
-<h1>Better Reads</h1>
+<main class="container text-center heading-top">
 
-<p>Welcome to the Better Reads app. Log in to continue.</p>
-
-<div>Login: <a href="/oauth2/authorization/github">click here</a></div>
+    <h1 class="display-5 fw-bold">Better Reads</h1>
+    <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4 space-bottom">Control your reading habit. Track the books you read and fuel your
+            reading.</p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center space-bottom">
+            <a type="button" href="/oauth2/authorization/github" class="btn btn-primary btn-lg px-4 gap-3">Login via
+                GitHub</a>
+        </div>
+    </div>
+    <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4 space-bottom">Or search for a book</p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <div th:insert="components/book-search :: search-panel"></div>
+        </div>
+    </div>
+</main>
 </body>
 </html>
